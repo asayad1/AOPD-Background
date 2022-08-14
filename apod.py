@@ -10,14 +10,15 @@ def getImage():
     response = requests.get('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
 
     # Extract image URL from JSON and API call to get image data from URL 
-    image_url = response.json()['hdurl']
-    image_data = requests.get(image_url).content
+    if 'hdurl' in response.json():
+        image_url = response.json()['hdurl']
+        image_data = requests.get(image_url).content
 
-    # Download image 
-    with open('image.jpg', 'wb') as handler:
-        handler.write(image_data)
+        # Download image 
+        with open('image.jpg', 'wb') as handler:
+            handler.write(image_data)
 
-    # Return the path of the image 
+        # Return the path of the image 
     return os.path.abspath('image.jpg')
 
 
